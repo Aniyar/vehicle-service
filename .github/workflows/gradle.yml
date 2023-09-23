@@ -31,7 +31,4 @@ jobs:
       with:
         arguments: build
     - name: Execute Jar
-      run: |
-        sudo kill -9 $(sudo lsof -t -i:80) || true
-        cd /home/ubuntu/actions-runner/_work/vehicle-service/vehicle-service/build/libs/
-        java -jar vehicle-service-0.0.1-SNAPSHOT.jar
+      run: sudo kill -9 `sudo lsof -t -i:80` & sudo -jar /home/ubuntu/actions-runner/_work/vehicle-service/vehicle-service/build/libs/vehicle-service-0.0.1-SNAPSHOT.jar &
