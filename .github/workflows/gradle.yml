@@ -31,5 +31,5 @@ jobs:
       with:
         arguments: build
     - name: Execute Jar
-      run: sudo /usr/lib/jvm/java-17-amazon-corretto/bin/java -jar build/libs/vehicle-service-0.0.1-SNAPSHOT.jar
+      run: /usr/lib/jvm/java-17-amazon-corretto/bin/java -jar build/libs/vehicle-service-0.0.1-SNAPSHOT.jar
     
