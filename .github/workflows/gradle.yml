@@ -30,8 +30,6 @@ jobs:
       uses: gradle/gradle-build-action@bd5760595778326ba7f1441bcf7e88b49de61a25 # v2.6.0
       with:
         arguments: build
-    - name: Kill process on port 80
-      run: sudo fuser -n tcp -k 80
     - name: Execute Jar
       run: sudo /usr/lib/jvm/java-17-amazon-corretto/bin/java -jar build/libs/vehicle-service-0.0.1-SNAPSHOT.jar
     
