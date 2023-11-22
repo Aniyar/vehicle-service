@@ -1,21 +1,55 @@
 server:
-  port: ${SERVER_PORT:80}
-
-logging:
-  level:
-    org.springframework.web.filter.CommonsRequestLoggingFilter: DEBUG
+  port: ${SERVER_PORT:8080}
+#  servlet:
+#    contextPath: /student
 
 spring:
   data:
     web:
       pageable:
         one-indexed-parameters: true
+
   datasource:
-    url: jdbc:postgresql://${DB_HOST:localhost}:${DB_PORT:5432}/${DB_NAME:postgres}
+    url: jdbc:postgresql://${DB_HOST:localhost}:${DB_PORT:5432}/${DB_NAME:vehicle_db}
     username: ${DB_USER:postgres}
     password: ${DB_PASS:postgres}
     driver-class-name: org.postgresql.Driver
+
+  flyway:
+    url: jdbc:postgresql://${DB_HOST:localhost}:${DB_PORT:5432}/${DB_NAME:vehicle_db}
+    user: ${DB_USER:postgres}
+    password: ${DB_PASS:postgres}
+    enabled: ${FLYWAY_ENABLED:true}
+    baseline-on-migrate: ${FLYWAY_BASE_LINE:true}
+    validate-on-migrate: ${FLYWAY_VALIDATE:true}
+    out-of-order: ${FLYWAY_OUT_OF_ORDER:false}
+    placeholderReplacement: false
+    placeholders:
+      application_user: ${DB_USER:postgres}
+
   jpa:
     show-sql: ${JPA_SHOW_SQL:false}
     properties:
       hibernate.dialect: org.hibernate.dialect.PostgreSQLDialect
+  servlet:
+    multipart:
+      max-file-size: 8MB
+      max-request-size: 8MB
+gateway:
+  url: ${GATEWAY_URL:http://localhost:8080}
+
+logging:
+  level:
+    org.springframework.web.filter.CommonsRequestLoggingFilter: DEBUG
+
+swagger:
+  base-url: ${SWAGGER_BASE_URL:http://localhost:8080}
+
+minio:
+  address: ${MINIO_ADDRESS:https://minio.alabs.space:9001}
+  login: ${MINIO_LOGIN:arada-user}
+  password: ${MINIO_PASSWORD:Jnk453FdjR3}
+  bucket: ${MINIO_BUCKET:arada-bucket}
+
+jwt:
+  secret: nu-swe-vehicle-service-secret
