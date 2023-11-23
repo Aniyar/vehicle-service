@@ -1,4 +1,4 @@
-package nu.swe.vehicleservice.core.enums;
+package nu.swe.vehicleservice.user.enums;
 
 import java.util.Arrays;
 import java.util.List;

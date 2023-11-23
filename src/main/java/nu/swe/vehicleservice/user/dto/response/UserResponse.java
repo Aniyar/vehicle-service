@@ -1,7 +1,7 @@
 package nu.swe.vehicleservice.user.dto.response;
 
 import io.swagger.v3.oas.annotations.media.Schema;
-import nu.swe.vehicleservice.core.enums.UserRole;
+import nu.swe.vehicleservice.user.enums.UserRole;
 import nu.swe.vehicleservice.corefeatures.file.dto.response.FileLinkResponse;
 import lombok.AllArgsConstructor;
 import lombok.Data;

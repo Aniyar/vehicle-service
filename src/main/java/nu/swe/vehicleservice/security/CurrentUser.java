@@ -1,7 +1,7 @@
 package nu.swe.vehicleservice.security;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import nu.swe.vehicleservice.core.enums.UserRole;
+import nu.swe.vehicleservice.user.enums.UserRole;
 import lombok.Data;
 import org.springframework.stereotype.Component;
 import org.springframework.web.context.annotation.RequestScope;
