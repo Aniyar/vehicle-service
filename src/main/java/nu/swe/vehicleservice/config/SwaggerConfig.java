@@ -34,8 +34,8 @@ public class SwaggerConfig {
                         .addList("Bearer Authentication"))
                 .components(new Components().addSecuritySchemes(
                         "Bearer Authentication", createApiKeyScheme()))
-                .info(new Info().title("Student service API")
-                        .description("API to view and manage students")
+                .info(new Info().title("Vehicle management service API")
+                        .description("API to view and manage vehicles/routes/drivers/maintenance/etc")
                         .version("1.0"));
     }
 
