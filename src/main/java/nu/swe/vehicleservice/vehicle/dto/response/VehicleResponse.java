@@ -1,7 +1,8 @@
 package nu.swe.vehicleservice.vehicle.dto.response;
 
 import lombok.Data;
-import nu.swe.vehicleservice.vehicle.enums.VehicleFuelType;
+import nu.swe.vehicleservice.driver.dto.response.DriverResponse;
+import nu.swe.vehicleservice.fuel.enums.FuelType;
 
 @Data
 public class VehicleResponse {
@@ -12,5 +13,6 @@ public class VehicleResponse {
     private String licencePlate;
     private Integer capacity;
     private String vin;
-    private VehicleFuelType fuelType;
+    private FuelType fuelType;
+    private DriverResponse driver;
 }

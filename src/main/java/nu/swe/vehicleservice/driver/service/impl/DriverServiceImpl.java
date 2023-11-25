@@ -37,7 +37,7 @@ public class DriverServiceImpl implements DriverService {
     private final VehicleRepository vehicleRepository;
 
     @Override
-    public DriverResponse findById(Integer id) {
+    public DriverResponse findById(Long id) {
         DriverEntity driver = driverRepository.findById(id).orElseThrow(() -> new DriverException(DRIVER_NOT_FOUND));
         return DriverMapper.INSTANCE.toResponse(driver);
     }
@@ -67,7 +67,7 @@ public class DriverServiceImpl implements DriverService {
     }
 
     @Override
-    public void assignVehicle(Integer id, Integer vehicleId) {
+    public void assignVehicle(Long id, Long vehicleId) {
         DriverEntity driver = driverRepository.findById(id).orElseThrow(() -> new DriverException(DRIVER_NOT_FOUND));
         VehicleEntity vehicle = vehicleRepository.findById(vehicleId).orElseThrow(() -> new VehicleException(VEHICLE_NOT_FOUND));
 

@@ -9,7 +9,7 @@ import org.springframework.data.domain.Pageable;
 
 public interface DriverService
 {
-    DriverResponse findById(Integer id);
+    DriverResponse findById(Long id);
 
     DriverResponse findCurrent();
 
@@ -17,7 +17,7 @@ public interface DriverService
 
     PageResponse<DriverResponse> findAll(Pageable pageable);
 
-    void assignVehicle(Integer id, Integer vehicleId);
+    void assignVehicle(Long id, Long vehicleId);
 
     void update(DriverUpdateRequest request);
 }

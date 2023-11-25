@@ -16,10 +16,10 @@ public interface UserService {
     /**
      * This method is creating or updating user's password.
      *
-     * @param id      {@link Integer} user's id in system
+     * @param id      {@link Long} user's id in system
      * @param request {@link UserPasswordResetRequest}
      */
-    void resetPassword(Integer id, UserPasswordResetRequest request);
+    void resetPassword(Long id, UserPasswordResetRequest request);
 
     /**
      * This method is creating or updating current's user password.
@@ -38,10 +38,10 @@ public interface UserService {
     /**
      * This method updates user's info.
      *
-     * @param id      {@link Integer} user's id in system
+     * @param id      {@link Long} user's id in system
      * @param request {@link UserUpdateRequest}
      */
-    void update(Integer id, UserUpdateRequest request);
+    void update(Long id, UserUpdateRequest request);
 
     /**
      * This method updates current user's info. Id is taken from auth token.
@@ -56,7 +56,7 @@ public interface UserService {
      * @param id {@link String} user's id in system
      * @return {@link UserResponse}
      */
-    UserResponse findById(Integer id);
+    UserResponse findById(Long id);
 
     /**
      * This method finds current user in system. Id is taken from auth token.
@@ -78,6 +78,6 @@ public interface UserService {
      *
      * @param id {@link String} user's id
      */
-    void deleteById(Integer id);
+    void deleteById(Long id);
 
 }

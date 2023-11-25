@@ -42,7 +42,4 @@ public class UserUpdateRequest {
     @Schema(description = "User's phone", example = "+77771234567")
     private String phoneNumber;
 
-    @Schema(description = "Is user active", example = "true")
-    private boolean enabled;
-
 }

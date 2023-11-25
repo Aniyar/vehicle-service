@@ -6,5 +6,5 @@ import lombok.Data;
 @Data
 public class DriverUpdateRequest extends DriverCreateRequest {
     @Schema(description = "Driver id", example = "1")
-    private Integer id;
+    private Long id;
 }

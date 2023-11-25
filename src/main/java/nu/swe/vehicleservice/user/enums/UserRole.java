@@ -8,7 +8,7 @@ import java.util.List;
  */
 public enum UserRole {
 
-    admin, manager, driver, gas, maintenance, staff;
+    admin, manager, driver, fuel, maintenance, staff;
 
     /**
      * This method return this enum's values string names.

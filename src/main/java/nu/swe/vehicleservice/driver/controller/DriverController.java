@@ -36,7 +36,7 @@ public class DriverController {
                             mediaType = "application/json"))})
     @PreAuthorize(Authority.AUTHENTICATED)
     @GetMapping("/{id}")
-    public DriverResponse findById(@PathVariable("id") Integer id) {
+    public DriverResponse findById(@PathVariable("id") Long id) {
         return driverService.findById(id);
     }
 
@@ -92,7 +92,7 @@ public class DriverController {
                             mediaType = "application/json"))})
     @PreAuthorize(Authority.ADMIN_OR_MANAGER)
     @PutMapping("/{id}/assign-vehicle/{vehicleId}")
-    public void create(@PathVariable Integer id, @PathVariable Integer vehicleId) {
+    public void create(@PathVariable Long id, @PathVariable Long vehicleId) {
         driverService.assignVehicle(id, vehicleId);
     }
 }

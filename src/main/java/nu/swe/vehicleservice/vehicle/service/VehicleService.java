@@ -11,7 +11,7 @@ public interface VehicleService {
 
     PageResponse<VehicleResponse> findAll(Pageable pageable);
 
-    VehicleResponse findById(Integer id);
+    VehicleResponse findById(Long id);
 
     void update(VehicleUpdateRequest request);
 }

@@ -22,16 +22,16 @@ import java.math.BigDecimal;
 public class DriverEntity extends AuditModel {
 
     @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "user_id")
+    @JoinColumn(name = "user_id", nullable = false)
     private UserEntity user;
 
-    @Column(name = "address")
+    @Column(name = "address", nullable = false)
     private String address;
 
-    @Column(name = "license_number")
+    @Column(name = "license_number", nullable = false)
     private String licenseNumber;
 
-    @Column(name = "rating")
+    @Column(name = "rating", nullable = false)
     private BigDecimal rating;
 
     @OneToOne(fetch = FetchType.LAZY)

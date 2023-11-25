@@ -16,7 +16,7 @@ import org.springframework.web.context.annotation.RequestScope;
 public class CurrentUser {
 
     @JsonProperty("id")
-    private Integer id;
+    private Long id;
 
     @JsonProperty("preferred_username")
     private String username;
