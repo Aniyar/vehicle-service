@@ -15,7 +15,7 @@ import lombok.NoArgsConstructor;
 public class LoginRequest {
 
     @NotEmpty
-    @Schema(description = "User's username", example = "manager")
+    @Schema(description = "User's username", example = "admin")
     private String username;
 
     @NotEmpty
