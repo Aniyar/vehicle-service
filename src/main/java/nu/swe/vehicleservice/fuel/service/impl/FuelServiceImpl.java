@@ -14,7 +14,6 @@ import nu.swe.vehicleservice.fuel.service.FuelService;
 import nu.swe.vehicleservice.security.CurrentUser;
 import nu.swe.vehicleservice.user.entity.UserEntity;
 import nu.swe.vehicleservice.user.enums.UserErrorCode;
-import nu.swe.vehicleservice.user.enums.UserRole;
 import nu.swe.vehicleservice.user.exception.UserException;
 import nu.swe.vehicleservice.user.repository.UserRepository;
 import nu.swe.vehicleservice.vehicle.exception.VehicleException;
@@ -27,7 +26,6 @@ import org.springframework.stereotype.Service;
 import java.math.BigDecimal;
 
 import static nu.swe.vehicleservice.core.specification.CommonSpecification.*;
-import static nu.swe.vehicleservice.fuel.enums.FuelErrorCode.FUEL_ACCESS_DENIED;
 import static nu.swe.vehicleservice.fuel.enums.FuelErrorCode.FUEL_NOT_FOUND;
 import static nu.swe.vehicleservice.vehicle.enums.VehicleErrorCode.VEHICLE_NOT_FOUND;
 
@@ -43,9 +41,6 @@ public class FuelServiceImpl implements FuelService {
     @Override
     public FuelResponse findById(Long id) {
         FuelEntity fuel = fuelRepository.findById(id).orElseThrow(() -> new FuelException(FUEL_NOT_FOUND));
-        if (currentUser.getRole() != UserRole.admin && fuel.getFuelPersonnel().getId() != currentUser.getId()) {
-            throw new FuelException(FUEL_ACCESS_DENIED);
-        }
 
         return FuelMapper.INSTANCE.toResponse(fuel);
     }
