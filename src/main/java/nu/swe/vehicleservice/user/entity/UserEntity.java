@@ -3,7 +3,7 @@ package nu.swe.vehicleservice.user.entity;
 import jakarta.persistence.*;
 import lombok.*;
 import nu.swe.vehicleservice.core.entity.AuditModel;
-import nu.swe.vehicleservice.core.enums.UserRole;
+import nu.swe.vehicleservice.user.enums.UserRole;
 import nu.swe.vehicleservice.corefeatures.file.entity.FileLinkEntity;
 import org.hibernate.annotations.Comment;
 import org.hibernate.annotations.SQLDelete;

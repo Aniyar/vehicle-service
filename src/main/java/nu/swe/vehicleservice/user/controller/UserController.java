@@ -47,7 +47,7 @@ public class UserController {
     /**
      * Update or create password for user.
      *
-     * @param id      {@link Integer} user's id
+     * @param id      {@link Long} user's id
      * @param request {@link UserPasswordResetRequest}
      */
     @Operation(summary = "Update or create password", description = "Updates or creates password for user")
@@ -64,7 +64,7 @@ public class UserController {
                     content = @Content(schema = @Schema()))})
     @PreAuthorize(Authority.ADMIN)
     @PutMapping("/{id}/password")
-    public void resetPassword(@PathVariable("id") Integer id, @Valid @RequestBody UserPasswordResetRequest request) {
+    public void resetPassword(@PathVariable("id") Long id, @Valid @RequestBody UserPasswordResetRequest request) {
         userService.resetPassword(id, request);
     }
 
@@ -139,7 +139,7 @@ public class UserController {
                     content = @Content(schema = @Schema()))})
     @PreAuthorize(Authority.ADMIN_OR_MANAGER)
     @GetMapping("/{id}")
-    public UserResponse findById(@PathVariable("id") Integer id) {
+    public UserResponse findById(@PathVariable("id") Long id) {
         return userService.findById(id);
     }
 
@@ -192,7 +192,7 @@ public class UserController {
     /**
      * Update existing user's info in system.
      *
-     * @param id      {@link Integer} user's unique id
+     * @param id      {@link Long} user's unique id
      * @param request {@link UserUpdateRequest}
      */
     @Operation(summary = "Update user", description = "Update existing user' info by id")
@@ -212,7 +212,7 @@ public class UserController {
     @PreAuthorize(Authority.ADMIN)
     @PutMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void update(@PathVariable("id") Integer id, @Valid @RequestBody UserUpdateRequest request) {
+    public void update(@PathVariable("id") Long id, @Valid @RequestBody UserUpdateRequest request) {
         userService.update(id, request);
     }
 
@@ -245,7 +245,7 @@ public class UserController {
     /**
      * Delete existing user by id.
      *
-     * @param id {@link Integer} user's id
+     * @param id {@link Long} user's id
      */
     @Operation(summary = "Delete user", description = "Delete existing user by id")
     @ApiResponses(value = {
@@ -262,7 +262,7 @@ public class UserController {
     @PreAuthorize(Authority.ADMIN)
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void deleteById(@PathVariable("id") Integer id) {
+    public void deleteById(@PathVariable("id") Long id) {
         userService.deleteById(id);
     }
 

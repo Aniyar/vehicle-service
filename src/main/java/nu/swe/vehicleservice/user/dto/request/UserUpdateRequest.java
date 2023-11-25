@@ -4,7 +4,7 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
-import nu.swe.vehicleservice.core.enums.UserRole;
+import nu.swe.vehicleservice.user.enums.UserRole;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -41,8 +41,5 @@ public class UserUpdateRequest {
     @NotBlank
     @Schema(description = "User's phone", example = "+77771234567")
     private String phoneNumber;
-
-    @Schema(description = "Is user active", example = "true")
-    private boolean enabled;
 
 }

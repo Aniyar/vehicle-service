@@ -40,7 +40,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void resetPassword(Integer id, UserPasswordResetRequest request) {
+    public void resetPassword(Long id, UserPasswordResetRequest request) {
         if (!UserValidationUtil.isValidPassword(request.getNewPassword())) {
             throw new UserException(USER_PASSWORD_IS_INVALID);
         }
@@ -62,7 +62,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void update(Integer id, UserUpdateRequest request) {
+    public void update(Long id, UserUpdateRequest request) {
         UserEntity user = userRepository.findById(id).orElseThrow(() -> new UserException(USER_NOT_FOUND));
         user = UserMapper.INSTANCE.toRepresentation(request, user);
         userRepository.save(user);
@@ -80,7 +80,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public UserResponse findById(Integer id) {
+    public UserResponse findById(Long id) {
         UserEntity user = userRepository.findById(currentUser.getId())
                 .orElseThrow(() -> new UserException(USER_NOT_FOUND));
 
@@ -96,7 +96,7 @@ public class UserServiceImpl implements UserService {
 
 
     @Override
-    public void deleteById(Integer id) {
+    public void deleteById(Long id) {
         userRepository.deleteById(id);
     }
 
