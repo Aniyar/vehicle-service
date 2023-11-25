@@ -17,4 +17,8 @@ public class Authority {
 
     public static final String FUEL = "hasAuthority('fuel')";
     public static final String ADMIN_OR_FUEL = "hasAnyAuthority('admin', 'fuel')";
+
+    public static final String MAINTENANCE = "hasAuthority('maintenance')";
+    public static final String ADMIN_OR_MAINTENANCE = "hasAnyAuthority('admin', 'maintenance')";
+
 }
