@@ -11,11 +11,10 @@ import nu.swe.vehicleservice.user.enums.UserErrorCode;
 import nu.swe.vehicleservice.user.exception.UserException;
 import nu.swe.vehicleservice.user.repository.UserRepository;
 import nu.swe.vehicleservice.user.service.AuthService;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
-import java.nio.file.Files;
-import java.nio.file.Paths;
+import java.io.FileNotFoundException;
+import java.io.InputStream;
 import com.auth0.jwt.algorithms.Algorithm;
 
 import java.security.interfaces.RSAPrivateKey;
@@ -49,8 +48,11 @@ public class AuthServiceImpl implements AuthService {
 
     private String generateToken(UserEntity user) throws Exception {
         final long EXPIRATION_TIME = 864_000_000; // 10 days
-        String privateKeyContent = new String(Files.readAllBytes(Paths.get(getClass().getClassLoader().getResource("rsa_keys/private_key.pem").toURI())))
-                .replaceAll("\\s+", "");
+        InputStream is = getClass().getClassLoader().getResourceAsStream("rsa_keys/private_key.pem");
+        if (is == null) {
+            throw new FileNotFoundException("Cannot find 'public_key.pem'");
+        }
+        String privateKeyContent = new String(is.readAllBytes()).replaceAll("\\s+", "");
 
         KeyFactory kf = KeyFactory.getInstance("RSA");
         PKCS8EncodedKeySpec keySpecPKCS8 = new PKCS8EncodedKeySpec(Base64.getDecoder().decode(privateKeyContent));

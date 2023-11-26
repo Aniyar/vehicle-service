@@ -15,8 +15,8 @@ import org.springframework.security.oauth2.server.resource.authentication.JwtGra
 import org.springframework.security.web.SecurityFilterChain;
 import com.nimbusds.jose.jwk.RSAKey;
 
-import java.nio.file.Files;
-import java.nio.file.Paths;
+import java.io.FileNotFoundException;
+import java.io.InputStream;
 import java.security.KeyFactory;
 import java.security.interfaces.RSAPublicKey;
 import java.security.spec.X509EncodedKeySpec;
@@ -54,8 +54,12 @@ public class SecurityConfiguration {
     @Bean
     public JwtDecoder jwtDecoder() throws Exception {
 
-        String publicKeyContent = new String(Files.readAllBytes(Paths.get(getClass().getClassLoader().getResource("rsa_keys/public_key.pem").toURI())))
-                .replaceAll("\\s+", "");
+        InputStream is = getClass().getClassLoader().getResourceAsStream("rsa_keys/public_key.pem");
+        if (is == null) {
+            throw new FileNotFoundException("Cannot find 'public_key.pem'");
+        }
+        String publicKeyContent = new String(is.readAllBytes()).replaceAll("\\s+", "");
+
         KeyFactory kf = KeyFactory.getInstance("RSA");
         X509EncodedKeySpec keySpecX509 = new X509EncodedKeySpec(Base64.getDecoder().decode(publicKeyContent));
         RSAPublicKey pubKey = (RSAPublicKey) kf.generatePublic(keySpecX509);
