@@ -47,7 +47,7 @@ public class VehicleController {
             @ApiResponse(responseCode = "200", description = "Success",
                     content = @Content(schema = @Schema(implementation = UserResponse.class),
                             mediaType = "application/json"))})
-    @PreAuthorize(Authority.ADMIN_OR_MANAGER)
+    @PreAuthorize(Authority.AUTHENTICATED)
     @GetMapping("/all")
     public PageResponse<VehicleResponse> findAll(@ParameterObject Pageable pageable) {
         return vehicleService.findAll(pageable);
@@ -58,7 +58,7 @@ public class VehicleController {
             @ApiResponse(responseCode = "200", description = "Success",
                     content = @Content(schema = @Schema(implementation = UserResponse.class),
                             mediaType = "application/json"))})
-    @PreAuthorize(Authority.ADMIN_OR_MANAGER)
+    @PreAuthorize(Authority.AUTHENTICATED)
     @GetMapping("/{id}")
     public VehicleResponse findById(@PathVariable Long id) {
         return vehicleService.findById(id);
@@ -69,7 +69,7 @@ public class VehicleController {
             @ApiResponse(responseCode = "200", description = "Success",
                     content = @Content(schema = @Schema(implementation = UserResponse.class),
                             mediaType = "application/json"))})
-    @PreAuthorize(Authority.ADMIN_OR_MANAGER)
+    @PreAuthorize(Authority.AUTHENTICATED)
     @PutMapping()
     public void update(@Valid @RequestBody VehicleUpdateRequest request) {
         vehicleService.update(request);
