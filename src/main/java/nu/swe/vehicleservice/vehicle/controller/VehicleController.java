@@ -12,6 +12,7 @@ import nu.swe.vehicleservice.core.dto.PageResponse;
 import nu.swe.vehicleservice.security.authorities.Authority;
 import nu.swe.vehicleservice.user.dto.response.UserResponse;
 import nu.swe.vehicleservice.vehicle.dto.request.VehicleCreateRequest;
+import nu.swe.vehicleservice.vehicle.dto.request.VehicleLocationUpdateRequest;
 import nu.swe.vehicleservice.vehicle.dto.request.VehicleUpdateRequest;
 import nu.swe.vehicleservice.vehicle.dto.response.VehicleResponse;
 import nu.swe.vehicleservice.vehicle.service.VehicleService;
@@ -72,5 +73,17 @@ public class VehicleController {
     @PutMapping()
     public void update(@Valid @RequestBody VehicleUpdateRequest request) {
         vehicleService.update(request);
+    }
+
+
+    @Operation(summary = "Update vehicle location", description = "Update vehicle location")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Success",
+                    content = @Content(schema = @Schema(implementation = UserResponse.class),
+                            mediaType = "application/json"))})
+    @PreAuthorize(Authority.DRIVER)
+    @PutMapping("/update-location")
+    public void updateLocation(@Valid @RequestBody VehicleLocationUpdateRequest request) {
+        vehicleService.updateLocation(request);
     }
 }

@@ -11,6 +11,8 @@ import nu.swe.vehicleservice.driver.exception.DriverException;
 import nu.swe.vehicleservice.vehicle.exception.VehicleException;
 import nu.swe.vehicleservice.driver.mapper.DriverMapper;
 import nu.swe.vehicleservice.driver.repository.DriverRepository;
+import nu.swe.vehicleservice.vehicle.mapper.VehicleMapper;
+import nu.swe.vehicleservice.vehicle.repository.VehicleLocationRepository;
 import nu.swe.vehicleservice.vehicle.repository.VehicleRepository;
 import nu.swe.vehicleservice.driver.service.DriverService;
 import nu.swe.vehicleservice.security.CurrentUser;
@@ -35,17 +37,20 @@ public class DriverServiceImpl implements DriverService {
     private final CurrentUser currentUser;
     private final UserRepository userRepository;
     private final VehicleRepository vehicleRepository;
+    private final VehicleLocationRepository locationRepository;
 
     @Override
     public DriverResponse findById(Long id) {
-        DriverEntity driver = driverRepository.findById(id).orElseThrow(() -> new DriverException(DRIVER_NOT_FOUND));
+        DriverEntity driver = driverRepository.findById(id)
+                .orElseThrow(() -> new DriverException(DRIVER_NOT_FOUND));
         return DriverMapper.INSTANCE.toResponse(driver);
     }
 
     @Override
     public DriverResponse findCurrent() {
-        DriverEntity driver = driverRepository.findByUserId(currentUser.getId()).orElseThrow(() -> new DriverException(DRIVER_NOT_FOUND));
-        return DriverMapper.INSTANCE.toResponse(driver);
+        DriverEntity driver = driverRepository.findByUserId(currentUser.getId())
+                .orElseThrow(() -> new DriverException(DRIVER_NOT_FOUND));
+        return mapResponse(driver);
     }
 
     @Override
@@ -63,7 +68,19 @@ public class DriverServiceImpl implements DriverService {
     @Override
     public PageResponse<DriverResponse> findAll(Pageable pageable) {
         Page<DriverEntity> page = driverRepository.findAll(pageable);
-        return PageResponse.fromPage(page.map(DriverMapper.INSTANCE::toResponse));
+        return PageResponse.fromPage(page.map(this::mapResponse));
+    }
+
+    private DriverResponse mapResponse(DriverEntity driverEntity) {
+
+        var response = DriverMapper.INSTANCE.toResponse(driverEntity);
+
+        if (response.getVehicle() != null) {
+            var location = locationRepository.findTop1ByVehicleIdOrderByCreatedAtDesc(response.getVehicle().getId());
+            location.ifPresent(entity -> response.getVehicle().setLocation(VehicleMapper.INSTANCE.toLocationResponse(entity)));
+        }
+
+        return response;
     }
 
     @Override
