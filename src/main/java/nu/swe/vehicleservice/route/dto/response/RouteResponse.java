@@ -18,7 +18,15 @@ public class RouteResponse {
 
     private String startPoint;
 
+    private String startLat;
+
+    private String startLon;
+
     private String endPoint;
+
+    private String endLat;
+
+    private String endLon;
 
     private LocalDateTime startTime;
 

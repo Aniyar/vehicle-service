@@ -21,7 +21,6 @@ import nu.swe.vehicleservice.user.enums.UserErrorCode;
 import nu.swe.vehicleservice.user.exception.UserException;
 import nu.swe.vehicleservice.user.repository.UserRepository;
 import nu.swe.vehicleservice.vehicle.entity.VehicleEntity;
-import nu.swe.vehicleservice.vehicle.repository.VehicleRepository;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
@@ -43,7 +42,6 @@ public class RouteServiceImpl implements RouteService {
     private final UserRepository userRepository;
     private final RouteRepository routeRepository;
     private final DriverRepository driverRepository;
-    private final VehicleRepository vehicleRepository;
 
     @Override
     public RouteResponse findById(Long id) {
@@ -61,7 +59,11 @@ public class RouteServiceImpl implements RouteService {
         RouteEntity route = RouteEntity.builder()
                 .staff(staff)
                 .startPoint(request.getStartPoint())
+                .startLon(request.getStartLon())
+                .startLat(request.getStartLat())
                 .endPoint(request.getEndPoint())
+                .endLat(request.getEndLat())
+                .endLon(request.getEndLon())
                 .status(RouteStatus.NEW)
                 .build();
         routeRepository.save(route);
@@ -78,6 +80,9 @@ public class RouteServiceImpl implements RouteService {
         }
         if (request.getStaffId() != null) {
             where = where.and(attributeEquals("staff", "id", request.getStaffId()));
+        }
+        if (request.getStatus() != null) {
+            where = where.and(attributeEquals("status", request.getStatus()));
         }
         Page<RouteEntity> page = routeRepository.findAll(where, pageable);
         return PageResponse.fromPage(page.map(RouteMapper.INSTANCE::toResponse));

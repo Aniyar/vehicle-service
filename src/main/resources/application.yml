@@ -1,5 +1,6 @@
 server:
   port: ${SERVER_PORT:80}
+  address: 0.0.0.0
 #  servlet:
 #    contextPath: /student
 
@@ -10,7 +11,7 @@ spring:
         one-indexed-parameters: true
 
   datasource:
-    url: jdbc:postgresql://${DB_HOST:178.91.107.74}:${DB_PORT:5432}/${DB_NAME:vehicle_db}
+    url: jdbc:postgresql://${DB_HOST:localhost}:${DB_PORT:5432}/${DB_NAME:vehicle_db}
     username: ${DB_USER:admin}
     password: ${DB_PASS:admin}
     driver-class-name: org.postgresql.Driver

@@ -4,6 +4,7 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import nu.swe.vehicleservice.route.enums.RouteStatus;
 
 /**
  * This class is a DTO representation of get pageable users list search parameters.
@@ -21,5 +22,8 @@ public class RouteGetRequest {
 
     @Schema(description = "Search parameter for driver id", example = "1")
     private Integer driverId;
+
+    @Schema(description = "Search parameter for route status", example = "NEW")
+    private RouteStatus status;
 }
 

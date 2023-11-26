@@ -38,8 +38,20 @@ public class RouteEntity extends AuditModel {
     @Column(name="start_point", nullable = false)
     private String startPoint;
 
+    @Column(name="start_lat", nullable = false)
+    private String startLat;
+
+    @Column(name="start_lon", nullable = false)
+    private String startLon;
+
     @Column(name="end_point", nullable = false)
     private String endPoint;
+
+    @Column(name="end_lat", nullable = false)
+    private String endLat;
+
+    @Column(name="end_lon", nullable = false)
+    private String endLon;
 
     @Column(name="start_time")
     private LocalDateTime startTime;
