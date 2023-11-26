@@ -1,4 +1,4 @@
-create table if not exists maintenances
+create table if not exists routes
 (
     id             bigserial    not null primary key,
     created_at     timestamp    not null default now(),
@@ -10,7 +10,7 @@ create table if not exists maintenances
     staff_id       integer not null,
     vehicle_id       integer,
     start_point       varchar(50)  not null,
-    end_point       integer  not null,
+    end_point       varchar(50)  not null,
 
     start_time timestamp,
     end_time timestamp,

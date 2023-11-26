@@ -15,4 +15,6 @@ public class VehicleResponse {
     private String vin;
     private FuelType fuelType;
     private DriverResponse driver;
+
+    private VehicleLocationResponse location;
 }
