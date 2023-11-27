@@ -42,7 +42,7 @@ logging:
     org.springframework.web.filter.CommonsRequestLoggingFilter: DEBUG
 
 swagger:
-  base-url: ${SWAGGER_BASE_URL:http://51.20.104.5:80}
+  base-url: ${SWAGGER_BASE_URL:http://51.20.192.129:80}
 
 minio:
   address: ${MINIO_ADDRESS:https://minio.alabs.space:9001}
