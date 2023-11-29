@@ -17,8 +17,11 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
+import static nu.swe.vehicleservice.core.specification.CommonSpecification.alwaysTrue;
+import static nu.swe.vehicleservice.core.specification.CommonSpecification.attributeEquals;
 import static nu.swe.vehicleservice.user.enums.UserErrorCode.*;
 
 
@@ -90,7 +93,11 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public PageResponse<UserResponse> findAllPageable(UserGetRequest request, Pageable pageable) {
-        Page<UserEntity> page = userRepository.findAll(pageable);
+        Specification<UserEntity> where = alwaysTrue();
+        if (request.getRole() != null) {
+            where = where.and(attributeEquals("role", request.getRole()));
+        }
+        Page<UserEntity> page = userRepository.findAll(where, pageable);
         return PageResponse.fromPage(page.map(UserMapper.INSTANCE::toResponse));
     }
 
