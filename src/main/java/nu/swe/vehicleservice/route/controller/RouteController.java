@@ -81,9 +81,9 @@ public class RouteController {
             @ApiResponse(responseCode = "200", description = "Success",
                     content = @Content(schema = @Schema(implementation = UserResponse.class),
                             mediaType = "application/json"))})
-    @PreAuthorize(Authority.DRIVER)
+    @PreAuthorize(Authority.ADMIN_OR_DRIVER)
     @PutMapping("/{id}/assign-driver/{driverId}")
-    public void update(@PathVariable Long id, @PathVariable Long driverId) {
+    public void assignDriver(@PathVariable Long id, @PathVariable Long driverId) {
         routeService.assignDriver(id, driverId);
     }
 
