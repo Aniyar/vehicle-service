@@ -98,4 +98,11 @@ public class RouteController {
     public void create(@Valid @RequestBody RouteCreateRequest request) {
         routeService.create(request);
     }
+
+    @Operation(summary = "Delete route", description = "Delete route by id. ADMIN AUTHENTICATED")
+    @PreAuthorize(Authority.ADMIN)
+    @DeleteMapping("/{id}")
+    public void delete(@PathVariable Long id) {
+        routeService.delete(id);
+    }
 }

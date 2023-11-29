@@ -134,4 +134,9 @@ public class RouteServiceImpl implements RouteService {
 
         routeRepository.save(route);
     }
+
+    @Override
+    public void delete(Long id) {
+        routeRepository.deleteById(id);
+    }
 }

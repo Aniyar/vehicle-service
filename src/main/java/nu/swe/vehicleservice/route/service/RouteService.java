@@ -21,4 +21,6 @@ public interface RouteService {
     void changeStatus(Long id, RouteStatus status);
 
     void assignDriver(Long id, Long driverId);
+
+    void delete(Long id);
 }
