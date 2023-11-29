@@ -10,8 +10,10 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import nu.swe.vehicleservice.core.dto.PageResponse;
 import nu.swe.vehicleservice.route.dto.request.RouteCreateRequest;
+import nu.swe.vehicleservice.route.dto.request.RouteGenerateReportRequest;
 import nu.swe.vehicleservice.route.dto.request.RouteGetRequest;
 import nu.swe.vehicleservice.route.dto.request.RouteUpdateRequest;
+import nu.swe.vehicleservice.route.dto.response.RouteReportResponse;
 import nu.swe.vehicleservice.route.dto.response.RouteResponse;
 import nu.swe.vehicleservice.route.enums.RouteStatus;
 import nu.swe.vehicleservice.route.service.RouteService;
@@ -104,5 +106,12 @@ public class RouteController {
     @DeleteMapping("/{id}")
     public void delete(@PathVariable Long id) {
         routeService.delete(id);
+    }
+
+    @Operation(summary = "Generate route report", description = "Generate route report. ADMIN AUTHENTICATED")
+    @PreAuthorize(Authority.ADMIN)
+    @PostMapping("/report")
+    public RouteReportResponse generateReport(@Valid @RequestBody RouteGenerateReportRequest request) {
+        return routeService.generateReport(request);
     }
 }

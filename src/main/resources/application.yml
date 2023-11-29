@@ -44,8 +44,14 @@ logging:
 swagger:
   base-url: ${SWAGGER_BASE_URL:http://51.20.192.129:80}
 
-minio:
-  address: ${MINIO_ADDRESS:https://minio.alabs.space:9001}
-  login: ${MINIO_LOGIN:arada-user}
-  password: ${MINIO_PASSWORD:Jnk453FdjR3}
-  bucket: ${MINIO_BUCKET:arada-bucket}
+
+app-config:
+  minio:
+    url: ${MINIO_URL:https://api.dev.partnerspay.co}
+    bucket-name: ${MINIO_BUCKET:pp-data-dev}
+    access-key: ${MINIO_ACCESS_KEY:9lYVYDgHnR6SaxRH}
+    secret-key: ${MINIO_SECRET_KEY:EwgGePr2J7bvJT8GsodcDlDj6x14Th0P}
+
+microservices:
+  doc-generator:
+    url: ${DOC_GENERATOR_URL:http://localhost:8081}

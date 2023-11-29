@@ -6,36 +6,30 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 /**
- * Configuration class for setting up the Minio client.
- *
- * <p>This class configures a {@link MinioClient} bean using properties 'minio.address', 'minio.login'
- * and 'minio.password' sourced from the application.yml or the environment.</p>
- *
- * @see MinioClient
+ * Configuration class for setting up the MinIO client.
  */
 @Configuration
 public class MinioConfig {
 
-    @Value("${minio.address}")
-    private String address;
+    @Value("${app-config.minio.url}")
+    private String url;
 
-    @Value("${minio.login}")
-    private String login;
+    @Value("${app-config.minio.access-key}")
+    private String accessKey;
 
-    @Value("${minio.password}")
-    private String password;
+    @Value("${app-config.minio.secret-key}")
+    private String secretKey;
 
     /**
-     * Creates and returns a Minio(file storage) client instance.
+     * Creates and returns an instance of MinioClient.
      *
-     * @return An instance of {@link MinioClient}
+     * @return Configured instance of MinioClient.
      */
     @Bean
     public MinioClient minioClient() {
         return MinioClient.builder()
-                .credentials(login, password)
-                .endpoint(address)
+                .endpoint(url)
+                .credentials(accessKey, secretKey)
                 .build();
     }
-
 }

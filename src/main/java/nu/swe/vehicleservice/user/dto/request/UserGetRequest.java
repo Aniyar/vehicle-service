@@ -5,6 +5,7 @@ import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import nu.swe.vehicleservice.user.enums.UserRole;
 
 /**
  * This class is a DTO representation of get pageable users list search parameters.
@@ -16,7 +17,7 @@ public class UserGetRequest {
 
     @Schema(description = "Search parameter for user role", example = "applicant")
     @NotNull
-    private String role;
+    private UserRole role;
 
     @Schema(description = "Search text", example = "77029482790")
     private String search;

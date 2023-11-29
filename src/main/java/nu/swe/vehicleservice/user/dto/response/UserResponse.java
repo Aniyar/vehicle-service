@@ -2,7 +2,6 @@ package nu.swe.vehicleservice.user.dto.response;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import nu.swe.vehicleservice.user.enums.UserRole;
-import nu.swe.vehicleservice.corefeatures.file.dto.response.FileLinkResponse;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -35,9 +34,6 @@ public class UserResponse {
 
     @Schema(description = "User's phone", example = "+77771234567")
     private String phoneNumber;
-
-    @Schema(description = "File link to user's profile picture")
-    private FileLinkResponse profilePictureFileLink;
 
     @Schema(description = "User's creation date")
     private String createdDate;

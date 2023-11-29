@@ -1,13 +1,20 @@
 package nu.swe.vehicleservice.route.service.impl;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import nu.swe.vehicleservice.core.dto.PageResponse;
+import nu.swe.vehicleservice.corefeatures.docgenerator.client.DocGeneratorClient;
+import nu.swe.vehicleservice.corefeatures.docgenerator.dto.DocGenerateRequest;
+import nu.swe.vehicleservice.corefeatures.docgenerator.dto.RouteDocData;
 import nu.swe.vehicleservice.driver.entity.DriverEntity;
 import nu.swe.vehicleservice.driver.exception.DriverException;
 import nu.swe.vehicleservice.driver.repository.DriverRepository;
+import nu.swe.vehicleservice.filestorage.service.FileStorage;
 import nu.swe.vehicleservice.route.dto.request.RouteCreateRequest;
+import nu.swe.vehicleservice.route.dto.request.RouteGenerateReportRequest;
 import nu.swe.vehicleservice.route.dto.request.RouteGetRequest;
 import nu.swe.vehicleservice.route.dto.request.RouteUpdateRequest;
+import nu.swe.vehicleservice.route.dto.response.RouteReportResponse;
 import nu.swe.vehicleservice.route.dto.response.RouteResponse;
 import nu.swe.vehicleservice.route.entity.RouteEntity;
 import nu.swe.vehicleservice.route.enums.RouteStatus;
@@ -28,12 +35,15 @@ import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.time.OffsetDateTime;
+import java.util.List;
 
-import static nu.swe.vehicleservice.core.specification.CommonSpecification.alwaysTrue;
-import static nu.swe.vehicleservice.core.specification.CommonSpecification.attributeEquals;
+import static nu.swe.vehicleservice.core.specification.CommonSpecification.*;
 import static nu.swe.vehicleservice.driver.enums.DriverErrorCode.DRIVER_NOT_FOUND;
 import static nu.swe.vehicleservice.route.enums.RouteErrorCode.*;
 
+
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class RouteServiceImpl implements RouteService {
@@ -42,6 +52,8 @@ public class RouteServiceImpl implements RouteService {
     private final UserRepository userRepository;
     private final RouteRepository routeRepository;
     private final DriverRepository driverRepository;
+    private final FileStorage fileStorage;
+    private final DocGeneratorClient docGeneratorClient;
 
     @Override
     public RouteResponse findById(Long id) {
@@ -155,5 +167,68 @@ public class RouteServiceImpl implements RouteService {
     @Override
     public void delete(Long id) {
         routeRepository.deleteById(id);
+    }
+
+    @Override
+    public RouteReportResponse generateReport(RouteGenerateReportRequest filter) {
+        RouteDocData routeDocData = new RouteDocData();
+        routeDocData.setGeneratedAt(OffsetDateTime.now().toString());
+
+        var allRoutes = getRoutesData(filter);
+        routeDocData.setRoutes(allRoutes);
+
+        DocGenerateRequest request = new DocGenerateRequest();
+        request.setTemplate("routes.xlsm");
+        request.setData(routeDocData);
+
+        var fileName = generateFileName(filter);
+        var fileBytes = generateExportFile(request);
+        var fileId = fileStorage.uploadFile(fileBytes, fileName);
+        var fileLink = fileStorage.getTemporaryDownloadUrl(fileId);
+        return new RouteReportResponse(fileLink, fileName);
+    }
+
+    private String generateFileName(RouteGenerateReportRequest filter) {
+
+        return "Routes_Vehicle_Service_%s_%s.xlsx".formatted(
+                filter.getFromDate(),
+                filter.getToDate()
+        );
+    }
+
+    private byte[] generateExportFile(DocGenerateRequest request) {
+        log.info("Trying to generate export file");
+        var generatedDoc = docGeneratorClient.generate(request);
+        log.info("Export file generated successfully");
+        return generatedDoc;
+    }
+
+    private List<RouteDocData.Route> getRoutesData(RouteGenerateReportRequest filter) {
+        Specification<RouteEntity> where = alwaysTrue();
+
+        where = where.and(safeEquals("startTime", filter.getFromDate()))
+                .and(safeEquals("endTime", filter.getToDate()));
+
+        if (filter.getVehicleId() != null) {
+            where = where.and(attributeEquals("vehicle", "id", filter.getVehicleId()));
+        }
+
+        if (filter.getDriverId() != null) {
+            where = where.and(attributeEquals("driver", "id", filter.getDriverId()));
+        }
+
+        var routes = routeRepository.findAll(where);
+        var routeDocData = routes.stream()
+                .map(RouteMapper.INSTANCE::toDocResponse)
+                .toList();
+
+        for (int i = 0; i < routeDocData.size(); i++) {
+            var route = routeDocData.get(i);
+            route.setIndex(i + 1);
+            route.setDriverName("%s %s".formatted(routes.get(i).getDriver().getUser().getFirstName(), routes.get(i).getDriver().getUser().getLastName()));
+            route.setStaffName("%s %s".formatted(routes.get(i).getStaff().getFirstName(), routes.get(i).getStaff().getLastName()));
+        }
+
+        return routeDocData;
     }
 }
