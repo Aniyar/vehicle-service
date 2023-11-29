@@ -26,6 +26,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.data.domain.Pageable;
 import java.math.BigDecimal;
 
+import static nu.swe.vehicleservice.driver.enums.DriverErrorCode.DRIVER_ALREADY_EXISTS;
 import static nu.swe.vehicleservice.driver.enums.DriverErrorCode.DRIVER_NOT_FOUND;
 import static nu.swe.vehicleservice.vehicle.enums.VehicleErrorCode.VEHICLE_NOT_FOUND;
 
@@ -56,6 +57,10 @@ public class DriverServiceImpl implements DriverService {
     @Override
     public void create(DriverCreateRequest request) {
         UserEntity user = userRepository.findById(currentUser.getId()).orElseThrow(() -> new UserException(UserErrorCode.USER_NOT_FOUND));
+        if (driverRepository.findByUserId(user.getId()).isPresent()) {
+            throw new DriverException(DRIVER_ALREADY_EXISTS);
+        }
+
         DriverEntity driver = DriverEntity.builder()
                 .user(user)
                 .address(request.getAddress())
@@ -106,5 +111,10 @@ public class DriverServiceImpl implements DriverService {
 
         DriverMapper.INSTANCE.updateEntityFromRequest(request, driver);
         driverRepository.save(driver);
+    }
+
+    @Override
+    public void delete(Long id) {
+        driverRepository.deleteById(id);
     }
 }

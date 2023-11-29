@@ -95,4 +95,10 @@ public class DriverController {
     public void create(@PathVariable Long id, @PathVariable Long vehicleId) {
         driverService.assignVehicle(id, vehicleId);
     }
+
+    @Operation(summary = "Delete driver", description = "Delete driver by id. ADMIN AUTHENTICATED")
+    @PreAuthorize(Authority.ADMIN)
+    @DeleteMapping("/{id}")
+    public void delete(@PathVariable Long id) { driverService.delete(id);
+    }
 }

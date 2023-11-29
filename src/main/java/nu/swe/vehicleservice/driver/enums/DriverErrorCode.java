@@ -6,7 +6,8 @@ import nu.swe.vehicleservice.core.enums.BaseErrorCode;
 @Getter
 public enum DriverErrorCode implements BaseErrorCode {
 
-    DRIVER_NOT_FOUND(404);
+    DRIVER_NOT_FOUND(404),
+    DRIVER_ALREADY_EXISTS(400);
 
 
     private final int status;

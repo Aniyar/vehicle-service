@@ -20,4 +20,6 @@ public interface DriverService
     void assignVehicle(Long id, Long vehicleId);
 
     void update(DriverUpdateRequest request);
+
+    void delete(Long id);
 }
