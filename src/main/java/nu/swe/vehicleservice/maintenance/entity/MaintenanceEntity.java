@@ -9,6 +9,8 @@ import nu.swe.vehicleservice.vehicle.entity.VehicleEntity;
 import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.Where;
 
+import java.math.BigDecimal;
+
 @Entity
 @Table(name = "maintenances")
 @Getter
@@ -34,4 +36,7 @@ public class MaintenanceEntity extends AuditModel {
 
     @Column(name="details", nullable = false)
     private String details;
+
+    @Column(name="cost")
+    private BigDecimal cost;
 }

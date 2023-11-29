@@ -59,6 +59,7 @@ public class MaintenanceServiceImpl implements MaintenanceService {
                 .vehicle(vehicle)
                 .maintenanceType(request.getMaintenanceType())
                 .details(request.getDetails())
+                .cost(request.getCost())
                 .maintenancePersonnel(maintenancePersonnel)
                 .build();
         maintenanceRepository.save(maintenance);
