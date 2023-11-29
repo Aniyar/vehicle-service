@@ -1,14 +1,18 @@
 package nu.swe.vehicleservice.route.enums;
 
-import nu.swe.vehicleservice.user.enums.UserRole;
 
 import java.util.Arrays;
-import java.util.List;
 
 public enum RouteStatus {
     NEW,
     WAITING,
     IN_PROGRESS,
-    COMPLETED
+    COMPLETED,
+    CANCELLED;
+
+    public boolean in(RouteStatus... statuses) {
+        return Arrays.stream(statuses)
+                .anyMatch(status -> status == this);
+    }
 
 }

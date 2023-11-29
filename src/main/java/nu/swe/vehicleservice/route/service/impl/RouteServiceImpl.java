@@ -18,6 +18,7 @@ import nu.swe.vehicleservice.route.service.RouteService;
 import nu.swe.vehicleservice.security.CurrentUser;
 import nu.swe.vehicleservice.user.entity.UserEntity;
 import nu.swe.vehicleservice.user.enums.UserErrorCode;
+import nu.swe.vehicleservice.user.enums.UserRole;
 import nu.swe.vehicleservice.user.exception.UserException;
 import nu.swe.vehicleservice.user.repository.UserRepository;
 import nu.swe.vehicleservice.vehicle.entity.VehicleEntity;
@@ -31,8 +32,7 @@ import java.time.LocalDateTime;
 import static nu.swe.vehicleservice.core.specification.CommonSpecification.alwaysTrue;
 import static nu.swe.vehicleservice.core.specification.CommonSpecification.attributeEquals;
 import static nu.swe.vehicleservice.driver.enums.DriverErrorCode.DRIVER_NOT_FOUND;
-import static nu.swe.vehicleservice.route.enums.RouteErrorCode.ROUTE_NOT_FOUND;
-import static nu.swe.vehicleservice.route.enums.RouteErrorCode.ROUTE_NO_VEHICLE_ASSIGNED_TO_DRIVER;
+import static nu.swe.vehicleservice.route.enums.RouteErrorCode.*;
 
 @Service
 @RequiredArgsConstructor
@@ -102,10 +102,27 @@ public class RouteServiceImpl implements RouteService {
         RouteEntity route = routeRepository.findById(id)
                 .orElseThrow(() -> new RouteException(ROUTE_NOT_FOUND));
 
-        if (route.getStartTime() == null && status == RouteStatus.WAITING) {
-            route.setStartTime(LocalDateTime.now());
+        var currentStatus = route.getStatus();
+        var currentRole = currentUser.getRole();
+
+        if ((currentStatus == status)
+            || (currentStatus == RouteStatus.NEW && (!status.in(RouteStatus.WAITING, RouteStatus.CANCELLED) || !currentRole.in(UserRole.admin, UserRole.staff)))
+            || (currentStatus == RouteStatus.IN_PROGRESS && (status != RouteStatus.COMPLETED || currentRole != UserRole.driver))
+            || (currentStatus == RouteStatus.WAITING && (!status.in(RouteStatus.IN_PROGRESS, RouteStatus.NEW) || currentRole != UserRole.driver))
+            || (currentStatus == RouteStatus.COMPLETED))
+        {
+            throw new RouteException(ROUTE_INVALID_STATUS);
         }
 
+        if (status == RouteStatus.NEW) {
+            if (!route.getDriver().getUser().getId().equals(currentUser.getId())) {
+                route.setDriver(null);
+            }
+        }
+
+        if (route.getStartTime() == null && status == RouteStatus.IN_PROGRESS) {
+            route.setStartTime(LocalDateTime.now());
+        }
         if (route.getEndTime() != null && status == RouteStatus.COMPLETED) {
             route.setEndTime(LocalDateTime.now());
         }

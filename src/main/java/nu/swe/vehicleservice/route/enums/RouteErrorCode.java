@@ -7,6 +7,7 @@ import nu.swe.vehicleservice.core.enums.BaseErrorCode;
 public enum RouteErrorCode implements BaseErrorCode {
 
     ROUTE_NOT_FOUND(404),
+    ROUTE_INVALID_STATUS(400),
     ROUTE_NO_VEHICLE_ASSIGNED_TO_DRIVER(400);
 
 
