@@ -74,6 +74,9 @@ public class MaintenanceServiceImpl implements MaintenanceService {
         if (request.getMaintenanceType() != null) {
             where = where.and(attributeEquals("maintenanceType", request.getMaintenanceType()));
         }
+        if (request.getVehiclePlate() != null) {
+            where = where.and(attributeEquals("vehicle", "licencePlate", request.getVehiclePlate()));
+        }
         Page<MaintenanceEntity> page = maintenanceRepository.findAll(where, pageable);
         return PageResponse.fromPage(page.map(MaintenanceMapper.INSTANCE::toResponse));
     }

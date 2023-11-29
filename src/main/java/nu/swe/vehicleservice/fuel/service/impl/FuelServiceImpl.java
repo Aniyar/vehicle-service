@@ -79,6 +79,9 @@ public class FuelServiceImpl implements FuelService {
         if (request.getFuelType() != null) {
             where = where.and(attributeEquals("fuelType", request.getFuelType()));
         }
+        if (request.getVehiclePlate() != null) {
+            where = where.and(attributeEquals("vehicle", "licencePlate", request.getVehiclePlate()));
+        }
         Page<FuelEntity> page = fuelRepository.findAll(where, pageable);
         return PageResponse.fromPage(page.map(FuelMapper.INSTANCE::toResponse));
     }

@@ -17,6 +17,9 @@ public class FuelGetRequest {
     @Schema(description = "Search parameter for vehicle id", example = "1")
     private Integer vehicleId;
 
+    @Schema(description = "Search parameter for vehicle plate", example = "780ATA01")
+    private String vehiclePlate;
+
     @Schema(description = "Search parameter for fuel personnel id", example = "1")
     private Integer fuelPersonnelId;
 
