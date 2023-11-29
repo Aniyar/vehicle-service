@@ -62,7 +62,7 @@ public class UserController {
                     content = @Content(schema = @Schema())),
             @ApiResponse(responseCode = "500", description = "Unknown error (Keycloak error)",
                     content = @Content(schema = @Schema()))})
-    @PreAuthorize(Authority.ADMIN)
+    @PreAuthorize(Authority.AUTHENTICATED)
     @PutMapping("/{id}/password")
     public void resetPassword(@PathVariable("id") Long id, @Valid @RequestBody UserPasswordResetRequest request) {
         userService.resetPassword(id, request);
@@ -86,7 +86,7 @@ public class UserController {
                     content = @Content(schema = @Schema())),
             @ApiResponse(responseCode = "500", description = "Unknown error (Keycloak error)",
                     content = @Content(schema = @Schema()))})
-    @PreAuthorize(Authority.ADMIN_OR_MANAGER)
+    @PreAuthorize(Authority.AUTHENTICATED)
     @PutMapping("/password")
     public void resetCurrentUserPassword(@Valid @RequestBody UserPasswordResetRequest request) {
         userService.resetCurrentUserPassword(request);
@@ -159,7 +159,7 @@ public class UserController {
                     content = @Content(schema = @Schema())),
             @ApiResponse(responseCode = "500", description = "Unknown error (Keycloak error)",
                     content = @Content(schema = @Schema()))})
-    @PreAuthorize(Authority.ADMIN_OR_MANAGER)
+    @PreAuthorize(Authority.AUTHENTICATED)
     @GetMapping("/my")
     public UserResponse findCurrentUser() {
         return userService.findCurrentUser();
@@ -209,7 +209,7 @@ public class UserController {
                     content = @Content(schema = @Schema())),
             @ApiResponse(responseCode = "500", description = "Unknown error (Keycloak error)",
                     content = @Content(schema = @Schema()))})
-    @PreAuthorize(Authority.ADMIN)
+    @PreAuthorize(Authority.AUTHENTICATED)
     @PutMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void update(@PathVariable("id") Long id, @Valid @RequestBody UserUpdateRequest request) {
@@ -235,7 +235,7 @@ public class UserController {
                     content = @Content(schema = @Schema())),
             @ApiResponse(responseCode = "500", description = "Unknown error (Keycloak error)",
                     content = @Content(schema = @Schema()))})
-    @PreAuthorize(Authority.ADMIN_OR_MANAGER)
+    @PreAuthorize(Authority.AUTHENTICATED)
     @PutMapping("/my")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void update(@Valid @RequestBody UserUpdateRequest request) {
