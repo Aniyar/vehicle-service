@@ -16,8 +16,8 @@ public class FuelCreateRequest {
     private FuelType fuelType;
 
     @NotNull
-    @Schema(description = "Vehicle id", example = "1")
-    private Long vehicleId;
+    @Schema(description = "Vehicle plate", example = "780ATA01")
+    private String vehiclePlate;
 
     @NotNull
     @Schema(description = "Price per liters", example = "213.72")

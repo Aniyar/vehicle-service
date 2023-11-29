@@ -49,7 +49,7 @@ public class FuelServiceImpl implements FuelService {
     public void create(FuelCreateRequest request) {
         BigDecimal numberLitersDecimal = new BigDecimal(request.getNumberLiters());
         BigDecimal price = request.getPricePerLiter().multiply(numberLitersDecimal);
-        var vehicle = vehicleRepository.findById(request.getVehicleId())
+        var vehicle = vehicleRepository.findByLicencePlate(request.getVehiclePlate())
                 .orElseThrow(() -> new VehicleException((VEHICLE_NOT_FOUND)));
 
         UserEntity fuelPersonnel = userRepository.findById(currentUser.getId())

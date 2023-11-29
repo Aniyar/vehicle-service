@@ -19,6 +19,6 @@ public class MainenanceCreateRequest {
     private String details;
 
     @NotNull
-    @Schema(description = "Vehicle id", example = "1")
-    private Long vehicleId;
+    @Schema(description = "Vehicle plate", example = "780ATA01")
+    private String vehiclePlate;
 }

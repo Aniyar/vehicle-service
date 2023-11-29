@@ -46,7 +46,9 @@ public class MaintenanceServiceImpl implements MaintenanceService {
 
     @Override
     public void create(MainenanceCreateRequest request) {
-        var vehicle = vehicleRepository.findById(request.getVehicleId())
+
+
+        var vehicle = vehicleRepository.findByLicencePlate(request.getVehiclePlate())
                 .orElseThrow(() -> new VehicleException((VEHICLE_NOT_FOUND)));
 
         UserEntity maintenancePersonnel = userRepository.findById(currentUser.getId())
