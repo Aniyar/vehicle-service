@@ -119,7 +119,7 @@ public class RouteServiceImpl implements RouteService {
         RouteEntity route = routeRepository.findById(id)
                 .orElseThrow(() -> new RouteException(ROUTE_NOT_FOUND));
 
-        DriverEntity driver = driverRepository.findByUserId(driverId)
+        DriverEntity driver = driverRepository.findById(driverId)
                 .orElseThrow(() -> new DriverException(DRIVER_NOT_FOUND));
 
         VehicleEntity vehicle = driver.getVehicle();
