@@ -54,4 +54,4 @@ app-config:
 
 microservices:
   doc-generator:
-    url: ${DOC_GENERATOR_URL:http://localhost:8081}
+    url: ${DOC_GENERATOR_URL:http://2.76.163.207:80}
