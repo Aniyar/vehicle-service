@@ -72,7 +72,7 @@ public class RouteController {
             @ApiResponse(responseCode = "200", description = "Success",
                     content = @Content(schema = @Schema(implementation = UserResponse.class),
                             mediaType = "application/json"))})
-    @PreAuthorize(Authority.DRIVER)
+    @PreAuthorize(Authority.DRIVER_OR_STAFF)
     @PutMapping("/{id}/change-status/{status}")
     public void update(@PathVariable Long id, @PathVariable RouteStatus status) {
         routeService.changeStatus(id, status);

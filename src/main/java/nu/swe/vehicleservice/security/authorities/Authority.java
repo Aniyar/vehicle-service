@@ -12,6 +12,7 @@ public class Authority {
     public static final String ADMIN_OR_MANAGER = "hasAnyAuthority('admin', 'manager')";
 
     public static final String ADMIN_OR_DRIVER = "hasAnyAuthority('admin', 'driver')";
+    public static final String DRIVER_OR_STAFF= "hasAnyAuthority('staff', 'driver')";
 
     public static final String AUTHENTICATED = "hasAnyAuthority('admin', 'manager', 'driver', 'fuel', 'maintenance', 'staff')";
 
