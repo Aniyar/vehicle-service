@@ -185,7 +185,7 @@ public class RouteServiceImpl implements RouteService {
         var fileBytes = generateExportFile(request);
         var fileId = fileStorage.uploadFile(fileBytes, fileName);
         var fileLink = fileStorage.getTemporaryDownloadUrl(fileId);
-        return new RouteReportResponse(fileLink, fileName);
+        return new RouteReportResponse("https://api.dev.partnerspay.co" + fileLink, fileName);
     }
 
     private String generateFileName(RouteGenerateReportRequest filter) {
